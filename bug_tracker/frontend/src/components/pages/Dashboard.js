@@ -1,13 +1,13 @@
 // Displays Form and TicketList
 
 import React, { Fragment } from 'react';
-import Form from './Form';
+import TicketForm from './TicketForm';
 import TicketList from './TicketList';
 
 export default function Dashboard() {
     return (
         <Fragment>
-            <Form />
+            <TicketForm />
             <TicketList />
         </Fragment>
     )

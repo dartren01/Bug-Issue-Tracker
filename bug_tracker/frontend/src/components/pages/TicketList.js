@@ -31,7 +31,7 @@ export class TicketList extends Component {
                 <h1>Ticket List</h1>
                 <ul>
                     {this.state.data.map(ticket =>
-                        <li>
+                        <li key={ticket.id}>
                             {ticket.title}
                             <br></br>
                             {ticket.description}

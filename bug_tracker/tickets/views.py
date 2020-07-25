@@ -32,3 +32,7 @@ class DetailTicket(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [
         permissions.AllowAny
     ]
+
+    def delete(self, request, *args, **kwargs):
+        Ticket.objects.filter(id=self.kwargs.get('pk')).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

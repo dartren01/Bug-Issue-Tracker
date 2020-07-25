@@ -5,7 +5,7 @@ export class TicketList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            tickets: [],
             loaded: false,
             placeholder: "Loading"
         };
@@ -16,9 +16,24 @@ export class TicketList extends Component {
             .then(res => {
                 const ticketData = res.data;
                 this.setState({
-                    data: ticketData,
+                    tickets: ticketData,
                     loaded: true
                 })
+            })
+            .catch(err => {
+                console.log("ERROR ", err);
+            });
+    }
+
+    handleDelete = (id) => {
+        axios.delete(`api/tickets/delete/${id}`)
+            .then(res => {
+                let arrCopy = [...this.state.tickets];
+                const newTickets = arrCopy.filter(ticket => ticket.id !== id);
+                this.setState({
+                    tickets: newTickets
+                });
+                console.log("Ticket Deleted");
             })
             .catch(err => {
                 console.log("ERROR ", err);
@@ -30,11 +45,12 @@ export class TicketList extends Component {
             <div>
                 <h1>Ticket List</h1>
                 <ul>
-                    {this.state.data.map(ticket =>
+                    {this.state.tickets.map(ticket =>
                         <li key={ticket.id}>
                             {ticket.title}
                             <br></br>
                             {ticket.description}
+                            <button onClick={() => this.handleDelete(ticket.id)}>Delete</button>
                         </li>
                     )}
                 </ul>

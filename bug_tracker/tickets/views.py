@@ -8,7 +8,7 @@ from rest_framework import status
 # API classes
 
 
-class ListTicket(generics.ListCreateAPIView):
+class ListTicket(generics.ListAPIView):
     serializer_class = TicketSerializer
     permission_classes = [
         permissions.AllowAny
@@ -16,6 +16,14 @@ class ListTicket(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Ticket.objects.all()
+
+
+class CreateTicket(generics.CreateAPIView):
+    serializer_class = TicketSerializer
+    queryset = Ticket.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
 
 
 class DetailTicket(generics.RetrieveUpdateDestroyAPIView):

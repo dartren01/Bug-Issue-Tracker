@@ -26,10 +26,10 @@ export class TicketForm extends Component {
             title: this.state.title,
             description: this.state.description
         }
-        axios.post('/api/tickets', newTicket, {
+        let csrfCookie = Cookies.get('XSRF-TOKEN');
+        axios.post('/api/tickets/create', newTicket, {
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Token ${Cookies.get("token")}`
+                'X-CSRFTOKEN': csrfCookie,
             }
         })
             .then(res => {

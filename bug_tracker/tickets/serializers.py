@@ -9,5 +9,6 @@ class TicketSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         instance = Ticket.objects.create(title=validated_data['title'],
-                                         description=validated_data['description'])
+                                         description=validated_data['description'],
+                                         isCompleted=validated_data['isCompleted'])
         return instance

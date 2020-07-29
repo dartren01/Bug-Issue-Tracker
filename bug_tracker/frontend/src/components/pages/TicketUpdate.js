@@ -13,6 +13,7 @@ class TicketUpdate extends Component {
         this.state = {
             title: "",
             description: "",
+            isCompleted: "",
             loaded: false,
             ticketId: ""
         }
@@ -27,7 +28,8 @@ class TicketUpdate extends Component {
     handleUpdate = (event) => {
         const newTicket = {
             title: this.state.title,
-            description: this.state.description
+            description: this.state.description,
+            isCompleted: this.state.isCompleted
         }
         let csrfCookie = Cookies.get('XSRF-TOKEN');
         axios.put(`/api/tickets/${this.state.ticketId}`, newTicket, {
@@ -51,6 +53,7 @@ class TicketUpdate extends Component {
                 this.setState({
                     title: ticketData.title,
                     description: ticketData.description,
+                    isCompleted: ticketData.isCompleted,
                     loaded: true,
                     ticketId: this.props.location.state.ticketId
                 })

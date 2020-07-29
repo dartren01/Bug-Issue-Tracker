@@ -54,17 +54,19 @@ class TicketList extends Component {
         return (
             <div>
                 <h1>Ticket List</h1>
-                <ul>
-                    {this.state.tickets.map(ticket =>
-                        <li key={ticket.id}>
-                            {ticket.title}
-                            <br></br>
-                            {ticket.description}
-                            <button onClick={() => this.handleUpdateRedirect(ticket.id)}>Update</button>
-                            <button onClick={() => this.handleDelete(ticket.id)}>Delete</button>
-                        </li>
-                    )}
-                </ul>
+                {this.state.tickets.map(ticket =>
+                    <div className="card" key={ticket.id}>
+                        <div className="card-body">
+                            <h2 className="card-title">{ticket.title}</h2>
+                            <p className="card-text">{ticket.description}</p>
+                        </div>
+                        <div className="card-body">
+                            <h5 className="card-subtitle mb-2 text-muted">{ticket.isCompleted ? "Completed" : "Not Completed"}</h5>
+                            <button type="button" className="btn btn-outline-primary" onClick={() => this.handleUpdateRedirect(ticket.id)}>Update</button>
+                            <button type="button" className="btn btn-outline-danger" onClick={() => this.handleDelete(ticket.id)}>Delete</button>
+                        </div>
+                    </div>
+                )}
             </div>
         )
     }

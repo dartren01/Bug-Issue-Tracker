@@ -23,8 +23,9 @@ class TicketForm extends Component {
     handleSubmit = (event) => {
         const newTicket = {
             title: this.state.title,
-            description: this.state.description
-        }
+            description: this.state.description,
+            isCompleted: false
+        };
         let csrfCookie = Cookies.get('XSRF-TOKEN');
         axios.post('/api/tickets/create', newTicket, {
             headers: {

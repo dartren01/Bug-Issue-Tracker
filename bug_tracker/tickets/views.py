@@ -33,6 +33,19 @@ class DetailTicket(generics.RetrieveUpdateDestroyAPIView):
         permissions.AllowAny
     ]
 
+    def get(self, request, *args, **kwargs):
+        instance = Ticket.objects.get(id=self.kwargs.get('pk'))
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        instance = Ticket.objects.get(id=self.kwargs.get('pk'))
+        serializer = self.get_serializer(
+            instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
     def delete(self, request, *args, **kwargs):
         Ticket.objects.filter(id=self.kwargs.get('pk')).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -1,4 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {
+    Link
+} from 'react-router-dom';
 
 export class Header extends Component {
     render() {
@@ -8,8 +11,11 @@ export class Header extends Component {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                    <a className="navbar-brand" href="#">Bug Tracker</a>
+                    <a className="navbar-brand" href="/">Bug Tracker</a>
                     <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li>
+                            <Link className="navbar-brand" to="/create_ticket/">New Ticket</Link>
+                        </li>
                     </ul>
                 </div>
             </nav>

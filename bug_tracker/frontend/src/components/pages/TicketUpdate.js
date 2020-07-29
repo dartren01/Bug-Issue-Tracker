@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
+import { withRouter } from 'react-router';
 
 
-class TicketForm extends Component {
+
+class TicketUpdate extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             title: "",
-            description: ""
+            description: "",
+            loaded: false,
+            ticketId: ""
         }
     }
 
@@ -20,23 +24,39 @@ class TicketForm extends Component {
         });
     }
 
-    handleSubmit = (event) => {
+    handleUpdate = (event) => {
         const newTicket = {
             title: this.state.title,
             description: this.state.description
         }
         let csrfCookie = Cookies.get('XSRF-TOKEN');
-        axios.post('/api/tickets/create', newTicket, {
+        axios.put(`/api/tickets/${this.state.ticketId}`, newTicket, {
             headers: {
                 'X-CSRFTOKEN': csrfCookie,
             }
         })
             .then(res => {
-                console.log("ticket add success");
-                this.props.history.push("/");
+                console.log("ticket update success");
+                this.props.history.push('/');
             })
             .catch(err => {
-                console.log("ticket add error: " + err)
+                console.log("ticket update error: " + err)
+            });
+    }
+
+    componentDidMount = () => {
+        axios.get(`api/tickets/${this.props.location.state.ticketId}`)
+            .then(res => {
+                const ticketData = res.data;
+                this.setState({
+                    title: ticketData.title,
+                    description: ticketData.description,
+                    loaded: true,
+                    ticketId: this.props.location.state.ticketId
+                })
+            })
+            .catch(err => {
+                console.log("ERROR ", err);
             });
     }
 
@@ -44,14 +64,14 @@ class TicketForm extends Component {
     render() {
         return (
             <div>
-                <h1>Add A Ticket</h1>
+                <h1>Update Ticket</h1>
                 <Form className="col-sm-8">
                     <Form.Group controlId="formTitle">
                         <Form.Label>Title</Form.Label>
                         <Form.Control
                             type="text"
                             name="title"
-                            placeholder="title"
+                            defaultValue={this.state.title}
                             onChange={(e) => this.handleChange(e)} />
                     </Form.Group>
 
@@ -61,14 +81,14 @@ class TicketForm extends Component {
                             as="textarea"
                             rows="3"
                             name="description"
-                            placeholder="description"
+                            defaultValue={this.state.description}
                             onChange={(e) => this.handleChange(e)} />
                     </Form.Group>
 
                     <Button
                         variant="outline-primary"
-                        onClick={(e) => this.handleSubmit(e)}>
-                        Create
+                        onClick={(e) => this.handleUpdate(e)}>
+                        Update
                     </Button>
                 </Form>
             </div>
@@ -76,4 +96,4 @@ class TicketForm extends Component {
     }
 }
 
-export default TicketForm
+export default withRouter(TicketUpdate);

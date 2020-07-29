@@ -1,14 +1,17 @@
 // Displays Form and TicketList
 
-import React, { Fragment } from 'react';
-import TicketForm from './TicketForm';
+import React, { Component, Fragment } from 'react';
 import TicketList from './TicketList';
 
-export default function Dashboard() {
-    return (
-        <Fragment>
-            <TicketForm />
-            <TicketList />
-        </Fragment>
-    )
+class Dashboard extends Component {
+    render() {
+        return (
+            <Fragment>
+                <TicketList />
+            </Fragment>
+        )
+    }
+
 }
+
+export default Dashboard;

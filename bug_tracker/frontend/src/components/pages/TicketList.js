@@ -1,7 +1,8 @@
 import React, { Component, } from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router';
 
-export class TicketList extends Component {
+class TicketList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,6 +41,15 @@ export class TicketList extends Component {
             });
     }
 
+    handleUpdateRedirect = (id) => {
+        this.props.history.push({
+            pathname: '/update_ticket',
+            state: {
+                ticketId: id
+            }
+        })
+    }
+
     render() {
         return (
             <div>
@@ -50,6 +60,7 @@ export class TicketList extends Component {
                             {ticket.title}
                             <br></br>
                             {ticket.description}
+                            <button onClick={() => this.handleUpdateRedirect(ticket.id)}>Update</button>
                             <button onClick={() => this.handleDelete(ticket.id)}>Delete</button>
                         </li>
                     )}
@@ -59,4 +70,4 @@ export class TicketList extends Component {
     }
 }
 
-export default TicketList
+export default withRouter(TicketList);
